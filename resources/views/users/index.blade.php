@@ -17,4 +17,3 @@
 
 
 
-<livewire:users.users-table-view />
