@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\GenreController;
+use App\Http\Controllers\AuthorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,4 +34,12 @@ Route::middleware([
             ->name('index')
             ->middleware(['permission:users.index']);
     });
+
+    Route::resource('authors', AuthorController::class)->only([
+        'index', 'create', 'edit'
+    ]);
+
+    Route::resource('genres', GenreController::class)->only([
+        'index', 'create', 'edit'
+    ]);
 });

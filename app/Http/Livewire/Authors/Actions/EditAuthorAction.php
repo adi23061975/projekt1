@@ -2,8 +2,8 @@
 
 namespace App\Http\Livewire\Authors\Actions;
 
-use LaravelViews\Actions\RedirectAction;
 use LaravelViews\Views\View;
+use LaravelViews\Actions\RedirectAction;
 
 class EditAuthorAction extends RedirectAction
 {

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Genre;
-
+use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
+use App\Http\Repositories\GenreRepository;
 class GenreController extends Controller
 {
     /**
@@ -35,7 +37,7 @@ class GenreController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $genre
      * @return \Illuminate\Http\Response
      */
     public function edit(Genre $genre)

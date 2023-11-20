@@ -12,11 +12,11 @@ class PermissionSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
+        // reset cache'a ról i uprawnień
+        // php artisan permission:cache-reset
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         Permission::create(['name' => 'users.index']);
@@ -26,6 +26,12 @@ class PermissionSeeder extends Seeder
 
         Permission::create(['name' => 'log-viewer']);
 
+        Permission::create(['name' => 'genres.index']);
+        Permission::create(['name' => 'genres.manage']);
+
+        Permission::create(['name' => 'authors.index']);
+        Permission::create(['name' => 'authors.manage']);
+
         $adminRole = Role::findByName(config('auth.roles.admin'));
         $adminRole->givePermissionTo('users.index');
         $adminRole->givePermissionTo('users.store');
@@ -33,5 +39,18 @@ class PermissionSeeder extends Seeder
         $adminRole->givePermissionTo('users.change_role');
 
         $adminRole ->givePermissionTo('log-viewer');
+
+        $adminRole->givePermissionTo('genres.index');
+        $adminRole->givePermissionTo('genres.manage');
+        $adminRole->givePermissionTo('authors.index');
+        $adminRole->givePermissionTo('authors.manage');
+
+        $workerRole = Role::findByName(config('auth.roles.worker'));
+        $workerRole->givePermissionTo('genres.index');
+        $workerRole->givePermissionTo('authors.index');
+
+        $userRole = Role::findByName(config('auth.roles.user'));
+        $userRole->givePermissionTo('genres.index');
+        $userRole->givePermissionTo('authors.index');
     }
 }

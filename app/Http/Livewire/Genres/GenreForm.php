@@ -2,11 +2,11 @@
 
 namespace App\Http\Livewire\Genres;
 
-use App\Models\Genre;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
+use App\Models\Genre;
 use WireUi\Traits\Actions;
 use Illuminate\Support\Str;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class GenreForm extends Component
 {
@@ -23,8 +23,11 @@ class GenreForm extends Component
                 'required',
                 'string',
                 'min:2',
-                'unique:genres,name' .
-                    ($this->editMode ? (',' . $this->genre->id) : ''),
+                'unique:authors,name' .
+                    ($this->editMode
+                        ? (',' . $this->genre->id)
+                        : ''
+                    ),
             ],
         ];
     }
@@ -32,7 +35,9 @@ class GenreForm extends Component
     public function validationAttributes()
     {
         return [
-            'name' => Str::lower(__('genres.attributes.name')),
+            'name' => Str::lower(
+                __('genres.attributes.name')
+            ),
         ];
     }
 
@@ -47,6 +52,9 @@ class GenreForm extends Component
         return view('livewire.genres.genre-form');
     }
 
+    /**
+     * Walidacja na żywo
+     */
     public function updated($propertyName)
     {
         $this->validateOnly($propertyName);
@@ -54,12 +62,12 @@ class GenreForm extends Component
 
     public function save()
     {
+        sleep(1);   // tymczasowo, celem pokazania opóźnienia
         if ($this->editMode) {
             $this->authorize('update', $this->genre);
         } else {
             $this->authorize('create', Genre::class);
         }
-        sleep(1);
         $this->validate();
         $this->genre->save();
         $this->notification()->success(
@@ -71,5 +79,7 @@ class GenreForm extends Component
                 : __('genres.messages.successes.stored', ['name' => $this->genre->name])
         );
         $this->editMode = true;
+        // opcjonalne przekierowanie na inny adres URL
+        // return redirect()->route('genres.index');
     }
 }

@@ -2,11 +2,11 @@
 
 namespace App\Http\Livewire\Authors;
 
-use App\Models\Author;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
+use App\Models\Author;
 use WireUi\Traits\Actions;
 use Illuminate\Support\Str;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class AuthorForm extends Component
 {
@@ -24,7 +24,10 @@ class AuthorForm extends Component
                 'string',
                 'min:2',
                 'unique:authors,name' .
-                    ($this->editMode ? (',' . $this->author->id) : ''),
+                    ($this->editMode
+                        ? (',' . $this->author->id)
+                        : ''
+                    ),
             ],
         ];
     }
@@ -32,7 +35,9 @@ class AuthorForm extends Component
     public function validationAttributes()
     {
         return [
-            'name' => Str::lower(__('authors.attributes.name')),
+            'name' => Str::lower(
+                __('authors.attributes.name')
+            ),
         ];
     }
 
@@ -47,6 +52,9 @@ class AuthorForm extends Component
         return view('livewire.authors.author-form');
     }
 
+    /**
+     * Walidacja na żywo
+     */
     public function updated($propertyName)
     {
         $this->validateOnly($propertyName);
@@ -54,12 +62,12 @@ class AuthorForm extends Component
 
     public function save()
     {
+        sleep(1);   // tymczasowo, celem pokazania opóźnienia
         if ($this->editMode) {
             $this->authorize('update', $this->author);
         } else {
             $this->authorize('create', Author::class);
         }
-        sleep(1);
         $this->validate();
         $this->author->save();
         $this->notification()->success(
@@ -71,5 +79,7 @@ class AuthorForm extends Component
                 : __('authors.messages.successes.stored', ['name' => $this->author->name])
         );
         $this->editMode = true;
+        // opcjonalne przekierowanie na inny adres URL
+        // return redirect()->route('authors.index');
     }
 }

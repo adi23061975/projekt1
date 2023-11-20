@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Author;
+use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
+use App\Http\Repositories\AuthorRepository;
 
 class AuthorController extends Controller
 {
@@ -18,6 +21,7 @@ class AuthorController extends Controller
             'authors.index'
         );
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -35,7 +39,7 @@ class AuthorController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $author
      * @return \Illuminate\Http\Response
      */
     public function edit(Author $author)

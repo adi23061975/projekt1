@@ -11,9 +11,17 @@ class EmailVerifiedFilter extends Filter
 
     public function __construct()
     {
+        parent::__construct();
         $this->title = __('users.attributes.email_verified_at');
     }
 
+    /**
+     * Modify the current query when the filter is used
+     *
+     * @param Builder $query Current query
+     * @param $value Value selected by the user
+     * @return Builder Query modified
+     */
     public function apply(Builder $query, $value, $request): Builder
     {
         if ($value == 1) {
@@ -22,6 +30,11 @@ class EmailVerifiedFilter extends Filter
         return $query->whereNull('email_verified_at');
     }
 
+    /**
+     * Defines the title and value for each option
+     *
+     * @return Array associative array with the title and values
+     */
     public function options(): array
     {
         return [

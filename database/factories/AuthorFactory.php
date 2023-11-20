@@ -14,13 +14,13 @@ class AuthorFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         return [
-            'name' => $this->faker->name,
+            'name' => $this->faker->unique()->word(100),
             'created_at' => $this->faker->dateTimeBetween(
                 '- 8 weeks',
-                '- 4 weeks',
+                '- 4 week',
             ),
             'updated_at' => $this->faker->dateTimeBetween(
                 '- 4 weeks',
